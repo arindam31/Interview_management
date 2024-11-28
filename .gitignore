@@ -1,0 +1,14 @@
+*.pyc
+*.idea
+*.swp
+*.py.swp
+*.log
+*.pdf
+data
+Logs
+*.sqlite3
+.env.dev
+.venv
+.env
+/staticfiles/
+ToDo.txt
