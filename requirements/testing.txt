@@ -1,3 +1,4 @@
 -r base.txt
-pytest
-pytest-django
+pytest==8.3.3
+pytest-django==4.9.0
+pytest-env==1.1.5

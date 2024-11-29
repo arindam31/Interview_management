@@ -2,3 +2,4 @@
 django-extensions==3.2.3
 django-debug-toolbar==4.3.0
 ipython
+flake8==7.1.1

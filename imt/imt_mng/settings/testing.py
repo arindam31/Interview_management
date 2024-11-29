@@ -1,5 +1,8 @@
+import logging
 from .base import *
 
+logger = logging.getLogger("users")
+logger.info("We are running testing settings.")
 DEBUG = False
 
 # Use an in-memory database for faster tests (SQLite)
@@ -9,9 +12,6 @@ DATABASES = {
         "NAME": ":memory:",
     }
 }
-
-# Disable any debug mode for speed
-DEBUG = False
 
 # Use fast password hashing for user tests
 PASSWORD_HASHERS = [

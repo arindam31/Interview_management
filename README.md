@@ -16,7 +16,7 @@
 ## ENV creation for different environments:
 On a CI/CD pipeline:
 
-  `pip install -r requirements/testing.txt;pytest`
+`pip install -r requirements/testing.txt;pytest`
 
 For local development:
 
