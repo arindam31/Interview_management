@@ -1,5 +1,5 @@
 import pytest
-from unittest import TestCase
+from django.test import TestCase
 from users.models import Staff
 from users.views import StaffView
 from django.conf import settings

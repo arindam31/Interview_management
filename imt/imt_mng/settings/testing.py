@@ -1,8 +1,5 @@
-import logging
 from .base import *
 
-logger = logging.getLogger("users")
-logger.info("We are running testing settings.")
 DEBUG = False
 
 # Use an in-memory database for faster tests (SQLite)
@@ -24,7 +21,7 @@ class DisableMigrations:
         return True
 
     def __getitem__(self, item):
-        return "notmigrations"
+        return None
 
 
 MIGRATION_MODULES = DisableMigrations()
