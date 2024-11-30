@@ -22,6 +22,15 @@ class TimestampedModel(models.Model):
 
 # Custom User Manager
 class UserManager(BaseUserManager):
+    def create(self, *args, **kwargs):
+        """Block create() default method so no one can mistakenly use that.
+        If one did use that, there will be no error.
+        But the user cannot login since password wont be hashed.
+        """
+        raise NotImplementedError(
+            "Use the create_user, create_superuser, create_staff, or create_general_user methods instead."
+        )
+
     def create_user(self, username, password=None, **extra_fields):
         if not username:
             raise ValueError("The Username field is required")
@@ -31,16 +40,19 @@ class UserManager(BaseUserManager):
         return user
 
     def create_superuser(self, username, password=None, **extra_fields):
+        """Create a super user"""
         extra_fields.setdefault("is_staff", True)
         extra_fields.setdefault("is_superuser", True)
         return self.create_user(username, password, **extra_fields)
 
     def create_staff(self, username, password=None, **extra_fields):
+        """This user is a staff and can login to admin."""
         extra_fields.setdefault("is_staff", True)
         extra_fields.setdefault("is_superuser", False)
         return self.create_user(username, password, **extra_fields)
 
     def create_general_user(self, username, password=None, **extra_fields):
+        """This user cannot login to admin."""
         extra_fields.setdefault("is_staff", False)
         extra_fields.setdefault("is_superuser", False)
         return self.create_user(username, password, **extra_fields)

@@ -1,6 +1,5 @@
 import environ
 from pathlib import Path
-from .log_settings import LOGGING
 
 # Setup env
 env = environ.Env(
