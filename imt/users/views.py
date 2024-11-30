@@ -1,17 +1,15 @@
-from django.shortcuts import render
 from django.http import HttpResponse
+from django.contrib.auth.views import LoginView
+from django.views.generic import TemplateView
 import logging
 from .models import Staff
 
 logger = logging.getLogger("users")
 
 
-# Create your views here.
-def hello(request):
-    logger.info("Hello my world")
-    return HttpResponse("Hello, world.")
+class HomepageView(TemplateView):
+    template_name = "home.html"
 
 
-class StaffView:
-    def get(self, request, id: int):
-        return HttpResponse(Staff.objects.get(id=id))
+class UserLoginView(LoginView):
+    template_name = "users/login.html"

@@ -12,6 +12,6 @@ Logs
 .env
 /staticfiles/
 ToDo.txt
-imt/.coverage
-imt/.DS_Store
+*.coverage
 htmlcov
+*.DS_Store

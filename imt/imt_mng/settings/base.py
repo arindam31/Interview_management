@@ -59,7 +59,7 @@ ROOT_URLCONF = "imt_mng.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [BASE_DIR.parent / "templates"],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -136,7 +136,22 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 # User model declaration
 AUTH_USER_MODEL = "users.User"
 
-# Phone number settings
+# *********** Phone number settings *************
 PHONENUMBER_DEFAULT_REGION = "AT"  # Default region for numbers without a country code
 PHONENUMBER_DB_FORMAT = "E164"  # Store phone numbers in E.164 format
 PHONENUMBER_DEFAULT_FORMAT = "INTERNATIONAL"  # Format for display
+# ********************************************
+
+
+# ****** Django authentication settings ******
+## Redirect after successful login
+LOGIN_REDIRECT_URL = "/users/home"
+
+# Redirect to login page if not authenticated
+LOGIN_URL = "/users/login/"
+# ********************************************
+
+# STATIC files settings.
+STATIC_URL = "/static/"
+STATICFILES_DIRS = [BASE_DIR.parent / "static"]
+# ********************************************
