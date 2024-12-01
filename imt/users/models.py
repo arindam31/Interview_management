@@ -2,6 +2,9 @@ import uuid
 from cities_light.models import City
 from phonenumber_field.modelfields import PhoneNumberField
 
+# local imports
+from skills.models import Skill
+
 # Django imports
 from django.contrib.auth.models import (
     AbstractBaseUser,
@@ -82,7 +85,7 @@ class Staff(TimestampedModel):
     department = models.CharField(max_length=100, blank=True)
 
 
-class Candidate(models.Model):
+class Candidate(TimestampedModel):
     user = models.OneToOneField(
         User, on_delete=models.CASCADE, related_name="candidate"
     )
@@ -92,6 +95,7 @@ class Candidate(models.Model):
     primary_phone_number = PhoneNumberField(blank=True, region="AT")
     city = models.ForeignKey(City, on_delete=models.SET_NULL, null=True, blank=True)
     resume = models.FileField(upload_to="resumes/", blank=True)
+    skills = models.ManyToManyField(to=Skill, related_name="candidates", blank=True)
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"

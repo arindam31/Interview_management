@@ -38,9 +38,9 @@ THIRD_PARTY_APPS = [
     "phonenumber_field",
 ]
 
-CUSTOM_APPS = [
-    "users",
-]
+CUSTOM_APPS = ["users", "skills", "jobs", "ratings", "interviews"]
+
+# final list of APPS
 INSTALLED_APPS = DJANGO_CORE_APPS + THIRD_PARTY_APPS + CUSTOM_APPS
 
 
