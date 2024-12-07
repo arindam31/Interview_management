@@ -1,0 +1,228 @@
+openapi: 3.0.3
+info:
+  title: IMT Apis
+  version: 0.0.0
+  description: Interview Management Tool
+paths:
+  /interviews/apis/:
+    get:
+      operationId: interviews_apis_list
+      tags:
+      - interviews
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/InterviewRound'
+          description: ''
+    post:
+      operationId: interviews_apis_create
+      tags:
+      - interviews
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InterviewRound'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/InterviewRound'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/InterviewRound'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InterviewRound'
+          description: ''
+  /interviews/apis/{id}/:
+    get:
+      operationId: interviews_apis_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this interview round.
+        required: true
+      tags:
+      - interviews
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InterviewRound'
+          description: ''
+    put:
+      operationId: interviews_apis_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this interview round.
+        required: true
+      tags:
+      - interviews
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InterviewRound'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/InterviewRound'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/InterviewRound'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InterviewRound'
+          description: ''
+    patch:
+      operationId: interviews_apis_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this interview round.
+        required: true
+      tags:
+      - interviews
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedInterviewRound'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedInterviewRound'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedInterviewRound'
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InterviewRound'
+          description: ''
+    delete:
+      operationId: interviews_apis_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this interview round.
+        required: true
+      tags:
+      - interviews
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '204':
+          description: No response body
+components:
+  schemas:
+    InterviewRound:
+      type: object
+      properties:
+        application:
+          type: integer
+        round_type:
+          $ref: '#/components/schemas/RoundTypeEnum'
+        interviewers:
+          type: array
+          items:
+            type: string
+            format: uuid
+        scheduled_at:
+          type: string
+          format: date-time
+        result:
+          $ref: '#/components/schemas/ResultEnum'
+        next_round:
+          type: integer
+          nullable: true
+      required:
+      - application
+      - scheduled_at
+    PatchedInterviewRound:
+      type: object
+      properties:
+        application:
+          type: integer
+        round_type:
+          $ref: '#/components/schemas/RoundTypeEnum'
+        interviewers:
+          type: array
+          items:
+            type: string
+            format: uuid
+        scheduled_at:
+          type: string
+          format: date-time
+        result:
+          $ref: '#/components/schemas/ResultEnum'
+        next_round:
+          type: integer
+          nullable: true
+    ResultEnum:
+      enum:
+      - A
+      - F
+      - N
+      type: string
+      description: |-
+        * `A` - Advanced
+        * `F` - Fail
+        * `N` - No Decision
+    RoundTypeEnum:
+      enum:
+      - T
+      - V
+      - W
+      - F
+      type: string
+      description: |-
+        * `T` - Telephonic
+        * `V` - Video
+        * `W` - Written
+        * `F` - Face-to-Face
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: sessionid

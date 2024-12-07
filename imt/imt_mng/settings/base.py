@@ -35,6 +35,8 @@ DJANGO_CORE_APPS = [
 
 THIRD_PARTY_APPS = [
     "phonenumber_field",
+    "rest_framework",
+    "drf_spectacular",
 ]
 
 CUSTOM_APPS = ["users", "skills", "jobs", "ratings", "interviews"]
@@ -84,14 +86,14 @@ DATABASES = {
         "ENGINE": "django.db.backends.sqlite3",
         "NAME": BASE_DIR.parent.parent / "imt.sqlite3",
     },
-    "production": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": env("POSTGRES_DB", default="mydb"),
-        "USER": env("POSTGRES_USER", default="myuser"),
-        "PASSWORD": env("POSTGRES_PASSWORD", default="mypassword"),
-        "HOST": env("POSTGRES_HOST", default="localhost"),
-        "PORT": env("POSTGRES_PORT", default="5432"),
-    },
+    # "production": {
+    #     "ENGINE": "django.db.backends.postgresql",
+    #     "NAME": env("POSTGRES_DB", default="mydb"),
+    #     "USER": env("POSTGRES_USER", default="myuser"),
+    #     "PASSWORD": env("POSTGRES_PASSWORD", default="mypassword"),
+    #     "HOST": env("POSTGRES_HOST", default="localhost"),
+    #     "PORT": env("POSTGRES_PORT", default="5432"),
+    # },
 }
 
 # Dynamically set the default database based on DJANGO_ENV
@@ -154,3 +156,19 @@ LOGIN_URL = "/users/login/"
 STATIC_URL = "/static/"
 STATICFILES_DIRS = [BASE_DIR.parent / "static"]
 # ********************************************
+
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    "DEFAULT_PERMISSION_CLASSES": [
+        "rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly",
+    ],
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+}
+
+SPECTACULAR_SETTINGS = {
+    "TITLE": "IMT Apis",
+    "DESCRIPTION": "Interview Management Tool",
+    "VERSION": "0.0.0",
+    "SERVE_INCLUDE_SCHEMA": False,
+}
