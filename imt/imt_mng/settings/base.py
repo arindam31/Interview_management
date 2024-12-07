@@ -34,7 +34,6 @@ DJANGO_CORE_APPS = [
 ]
 
 THIRD_PARTY_APPS = [
-    "cities_light",
     "phonenumber_field",
 ]
 

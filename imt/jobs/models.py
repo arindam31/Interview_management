@@ -1,5 +1,4 @@
 from django.db import models
-from cities_light.models import City
 
 # local imports
 from skills.models import Skill
@@ -34,10 +33,10 @@ class JobOpening(models.Model):
     position = models.ForeignKey(
         JobPosition, on_delete=models.CASCADE, related_name="job_openings"
     )
-    city = models.ForeignKey(City, on_delete=models.SET_NULL, null=True, blank=True)
+    city = models.CharField(max_length=200)
 
     posted_date = models.DateField(auto_now_add=True)
-    closing_date = models.DateField()
+    closing_date = models.DateField(blank=True, null=True)
     JOB_TYPE_CHOICES = (
         ("P", "Permanent"),
         ("T", "Temporary"),
@@ -62,7 +61,7 @@ class JobOpening(models.Model):
         super().delete(*args, **kwargs)
 
     def __str__(self):
-        return f"{self.position.title} in {self.city.name if self.city else 'Unknown'}"
+        return f"{self.position.title} in {self.city if self.city else 'Unknown'}"
 
     class Meta:
         constraints = [

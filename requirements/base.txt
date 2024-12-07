@@ -1,5 +1,4 @@
  django==4.2
  python-environ==0.4.54
- django-cities-light==3.10.1
  django-phonenumber-field==8.0.0
  phonenumbers==8.13.50

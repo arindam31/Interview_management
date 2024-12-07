@@ -1,5 +1,9 @@
+from datetime import timedelta
 from django.db import models
 from django.utils import timezone
+from django.core.exceptions import ValidationError
+
+# from custom imports
 from jobs.models import JobApplication
 
 
@@ -46,7 +50,31 @@ class InterviewRound(models.Model):
     )
 
     def __str__(self):
-        return f"Round {self.type} for {self.application.candidate}"
+        return f"Round {self.round_type} for {self.application.candidate}"
+
+    def clean(self):
+        # Check for overlapping interview schedules for interviewers
+        for interviewer in self.interviewers.all():
+            # Look for rounds scheduled at the same time (up to 15 minutes before and after for buffer)
+            conflicting_rounds = InterviewRound.objects.filter(
+                interviewers=interviewer,
+                scheduled_at__range=(
+                    self.scheduled_at - timedelta(minutes=15),
+                    self.scheduled_at + timedelta(minutes=15),
+                ),
+            ).exclude(
+                id=self.id
+            )  # Exclude the current instance being saved
+
+            if conflicting_rounds.exists():
+                raise ValidationError(
+                    f"{interviewer} has a conflict with another interview at this time."
+                )
+
+    def save(self, *args, **kwargs):
+        # Call clean() method to validate the data before saving
+        self.clean()
+        super().save(*args, **kwargs)
 
     @classmethod
     def interviews_today(cls):

@@ -36,9 +36,9 @@ class TestUserManager(TestCase):
             "staffpassword"
         )  # Password should be hashed and verified
 
-    def test_create_general_user(self):
+    def test_create_regular_user(self):
         """Test creating a general user."""
-        user = User.objects.create_general_user(
+        user = User.objects.create_regular_user(
             username="general_user", password="generalpassword"
         )
         assert user.username == "general_user"
@@ -51,7 +51,7 @@ class TestUserManager(TestCase):
     def test_create_with_missing_username(self):
         """Test creating a user without a username raises an error."""
         with pytest.raises(ValueError, match="The Username field is required"):
-            User.objects.create_user(username=None, password="testpassword")
+            User.objects.create_staff(username=None, password="testpassword")
 
     def test_user_login_valid_credentials(self):
         """Test for valid credentials"""
@@ -63,6 +63,7 @@ class TestUserManager(TestCase):
         """Test if someone uses user.objects.create(), it must not work, since this will lead to issues."""
         with self.assertRaisesMessage(
             NotImplementedError,
-            "Use the create_user, create_superuser, create_staff, or create_general_user methods instead",
+            "Directly calling 'create()' is not allowed. Please use one of the following methods instead: "
+            "create_user(), create_superuser(), create_staff(), create_regular_user().",
         ):
             User.objects.create(username=self.username, password=self.password)
