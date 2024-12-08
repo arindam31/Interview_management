@@ -14,6 +14,11 @@ class InterviewRoundSerializer(serializers.ModelSerializer):
             "next_round",
         ]
 
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        representation["round_type"] = instance.get_round_type_display()
+        return representation
+
 
 class InterviewFeedbackSerializer(serializers.ModelSerializer):
     class Meta:

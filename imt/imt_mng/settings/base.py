@@ -37,6 +37,7 @@ THIRD_PARTY_APPS = [
     "phonenumber_field",
     "rest_framework",
     "drf_spectacular",
+    "corsheaders",
 ]
 
 CUSTOM_APPS = ["users", "skills", "jobs", "ratings", "interviews"]
@@ -53,6 +54,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
 ]
 
 ROOT_URLCONF = "imt_mng.urls"
@@ -172,3 +174,8 @@ SPECTACULAR_SETTINGS = {
     "VERSION": "0.0.0",
     "SERVE_INCLUDE_SCHEMA": False,
 }
+
+# CORS settings
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+]
