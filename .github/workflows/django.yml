@@ -29,3 +29,8 @@ jobs:
       run: |
         cd imt
         pytest
+      env:
+        DEBUG: false
+        SECRET_KEY: ${{ secrets.SECRET_KEY }}
+        DJANGO_ENV: "testing"
+        
