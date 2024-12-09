@@ -28,7 +28,7 @@ jobs:
     - name: Run Tests
       run: |
         cd imt
-        pytest
+        pytest --tb=short
       env:
         DEBUG: false
         SECRET_KEY: ${{ secrets.SECRET_KEY }}
