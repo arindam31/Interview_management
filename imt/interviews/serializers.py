@@ -6,6 +6,7 @@ class InterviewRoundSerializer(serializers.ModelSerializer):
     class Meta:
         model = InterviewRound
         fields = [
+            "id",
             "application",
             "round_type",
             "interviewers",
