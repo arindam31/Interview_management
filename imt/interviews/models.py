@@ -78,6 +78,7 @@ class InterviewRound(models.Model):
 
     @classmethod
     def interviews_today(cls):
+        """Get all Interview rounds today"""
         return cls.objects.filter(date=timezone.datetime.today())
 
 

@@ -4,5 +4,9 @@ from users.apis.api_auth import CustomTokenApi
 
 # JWT token apis
 urlpatterns = [
-    path("api/token/", CustomTokenApi.as_view(), name="custom_token_obtain_pair"),
+    path(
+        "token/",
+        CustomTokenApi.as_view(),
+        name="custom_token_obtain_pair",
+    ),
 ]
