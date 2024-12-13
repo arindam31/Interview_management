@@ -14,7 +14,7 @@ class JobPosition(models.Model):
         Skill, related_name="required_for_positions"
     )
     optional_skills = models.ManyToManyField(
-        Skill, related_name="optional_for_positions", blank=True
+        Skill, related_name="optional_for_positions"
     )
 
     def __str__(self):
