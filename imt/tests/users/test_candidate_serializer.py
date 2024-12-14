@@ -7,7 +7,6 @@ from users.serializers import CandidateSerializer
 from users.models import Candidate
 from skills.models import Skill
 from skills.serializers import SkillSerializer
-from phonenumber_field.modelfields import PhoneNumberField
 
 
 User = get_user_model()
