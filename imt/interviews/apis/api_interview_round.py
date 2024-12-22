@@ -67,7 +67,7 @@ class InterviewRoundViewSet(viewsets.ModelViewSet):
         parameters=[
             OpenApiParameter(
                 name="staff_id",
-                type=OpenApiTypes.INT,
+                type=OpenApiTypes.UUID,
                 location=OpenApiParameter.QUERY,
                 description="Filter interview rounds by application ID.",
             ),
@@ -109,7 +109,7 @@ class InterviewRoundViewSet(viewsets.ModelViewSet):
                 raise ValidationError({"staff_id": "Staff ID is required."})
 
             rounds = InterviewRound.objects.filter(
-                interviewers__contain=staff_id,
+                interviewers__id__in=[staff_id],
                 scheduled_at__date__range=[start_date, end_date],
             )
 
