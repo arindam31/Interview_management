@@ -16,3 +16,4 @@ class CandidateAdmin(admin.ModelAdmin):
 @admin.register(Staff)
 class StaffAdmin(admin.ModelAdmin):
     list_display = ("first_name", "last_name", "email", "phone")
+    readonly_fields = ("id",)
