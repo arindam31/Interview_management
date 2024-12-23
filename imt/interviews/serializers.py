@@ -7,6 +7,7 @@ class InterviewRoundSerializer(serializers.ModelSerializer):
         model = InterviewRound
         fields = [
             "id",
+            "duration_in_mins",
             "application",
             "round_type",
             "interviewers",

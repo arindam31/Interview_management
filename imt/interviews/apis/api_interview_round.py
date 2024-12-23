@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import date, timedelta
 from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.exceptions import ValidationError
@@ -93,9 +93,8 @@ class InterviewRoundViewSet(viewsets.ModelViewSet):
         """
         staff_id = request.query_params.get("staff_id")
         start_date = request.query_params.get("start_date", date.today().isoformat())
-        end_date = request.query_params.get(
-            "end_date", start_date
-        )  # Default to the same day
+        end_date = (date.today() + timedelta(days=7)).isoformat()
+        end_date = request.query_params.get("end_date", end_date)  # Default to a week
 
         try:
             # Parse dates
@@ -114,10 +113,7 @@ class InterviewRoundViewSet(viewsets.ModelViewSet):
             )
 
             if not rounds.exists():
-                return Response(
-                    {"message": "No interview rounds found for the given criteria."},
-                    status=404,
-                )
+                return Response([])
 
             serializer = self.get_serializer(rounds, many=True)
             return Response(serializer.data)

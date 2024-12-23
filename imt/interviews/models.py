@@ -35,6 +35,7 @@ class InterviewRound(models.Model):
         "users.Staff", related_name="interview_rounds", blank=True
     )
     scheduled_at = models.DateTimeField()
+    duration_in_mins = models.PositiveSmallIntegerField(default=60)
     result_choices = (
         ("A", "Advanced"),
         ("F", "Fail"),
