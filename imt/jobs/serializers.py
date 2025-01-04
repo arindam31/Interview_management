@@ -64,3 +64,12 @@ class JobApplicationSerializer(serializers.ModelSerializer):
             "final_result",
             "status",
         ]
+
+
+class MinimalJobApplicationSerializer(serializers.ModelSerializer):
+    candidate_first_name = serializers.CharField(source="candidate.first_name")
+    candidate_last_name = serializers.CharField(source="candidate.last_name")
+
+    class Meta:
+        model = JobApplication
+        fields = ["id", "candidate_first_name", "candidate_last_name"]

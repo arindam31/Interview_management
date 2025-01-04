@@ -6,7 +6,7 @@ from django.utils import timezone
 from faker import Faker
 
 # local imports
-from users.models import Candidate, User
+from users.models import Candidate, User, Staff
 from jobs.models import JobOpening, JobApplication, JobPosition
 from interviews.models import InterviewRound
 from skills.models import Skill
@@ -27,6 +27,7 @@ class Command(BaseCommand):
         ]
 
         all_skills = Skill.objects.all()
+        all_staff = Staff.objects.all()
 
         for pos in list_position:
             job_pos, _ = JobPosition.objects.get_or_create(
@@ -62,7 +63,7 @@ class Command(BaseCommand):
                 )
 
                 for i in range(1, 4):  # Simulating multiple interview rounds
-                    InterviewRound.objects.create(
+                    interview_round = InterviewRound.objects.create(
                         application=job_application,
                         result=fake.random_element(elements=("A", "F", "N")),
                         scheduled_at=timezone.make_aware(
@@ -74,4 +75,5 @@ class Command(BaseCommand):
                             )
                         ),
                     )
+                    interview_round.interviewers.add(choice(all_staff))
         self.stdout.write(self.style.SUCCESS("Mock data generated successfully!"))

@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import date, timedelta
 from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.exceptions import ValidationError
@@ -63,6 +63,29 @@ class InterviewRoundViewSet(viewsets.ModelViewSet):
     def list(self, request, *args, **kwargs):
         return super().list(request, *args, **kwargs)
 
+    @extend_schema(
+        parameters=[
+            OpenApiParameter(
+                name="staff_id",
+                type=OpenApiTypes.UUID,
+                location=OpenApiParameter.QUERY,
+                description="Filter interview rounds by application ID.",
+            ),
+            OpenApiParameter(
+                name="start_date",
+                type=OpenApiTypes.DATE,
+                location=OpenApiParameter.QUERY,
+                description="Start range of round.",
+            ),
+            OpenApiParameter(
+                name="end_date",
+                type=OpenApiTypes.DATE,
+                location=OpenApiParameter.QUERY,
+                description="End range of round.",
+            ),
+        ],
+        description="List interview rounds by staff assigned and date range.",
+    )
     @action(detail=False, methods=["get"])
     def interviewer_rounds(self, request):
         """
@@ -70,9 +93,8 @@ class InterviewRoundViewSet(viewsets.ModelViewSet):
         """
         staff_id = request.query_params.get("staff_id")
         start_date = request.query_params.get("start_date", date.today().isoformat())
-        end_date = request.query_params.get(
-            "end_date", start_date
-        )  # Default to the same day
+        end_date = (date.today() + timedelta(days=7)).isoformat()
+        end_date = request.query_params.get("end_date", end_date)  # Default to a week
 
         try:
             # Parse dates
@@ -86,15 +108,12 @@ class InterviewRoundViewSet(viewsets.ModelViewSet):
                 raise ValidationError({"staff_id": "Staff ID is required."})
 
             rounds = InterviewRound.objects.filter(
-                interviewers__contain=staff_id,
+                interviewers__id__in=[staff_id],
                 scheduled_at__date__range=[start_date, end_date],
             )
 
             if not rounds.exists():
-                return Response(
-                    {"message": "No interview rounds found for the given criteria."},
-                    status=404,
-                )
+                return Response([])
 
             serializer = self.get_serializer(rounds, many=True)
             return Response(serializer.data)
