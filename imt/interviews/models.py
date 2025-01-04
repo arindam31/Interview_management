@@ -53,19 +53,16 @@ class InterviewRound(models.Model):
     def __str__(self):
         return f"Round {self.round_type} for {self.application.candidate}"
 
-    def clean(self):
-        # Check for overlapping interview schedules for interviewers
+    def validate_interviewers(self):
+        """Validates the interviewers field for schedule conflicts."""
         for interviewer in self.interviewers.all():
-            # Look for rounds scheduled at the same time (up to 15 minutes before and after for buffer)
             conflicting_rounds = InterviewRound.objects.filter(
                 interviewers=interviewer,
                 scheduled_at__range=(
                     self.scheduled_at - timedelta(minutes=15),
                     self.scheduled_at + timedelta(minutes=15),
                 ),
-            ).exclude(
-                id=self.id
-            )  # Exclude the current instance being saved
+            ).exclude(id=self.id)
 
             if conflicting_rounds.exists():
                 raise ValidationError(
@@ -73,9 +70,10 @@ class InterviewRound(models.Model):
                 )
 
     def save(self, *args, **kwargs):
-        # Call clean() method to validate the data before saving
-        self.clean()
-        super().save(*args, **kwargs)
+        is_new = self.pk is None  # Check if the instance is new
+        super().save(*args, **kwargs)  # Save the instance first to get an ID
+        if not is_new:  # Validate only for existing instances
+            self.validate_interviewers()
 
     @classmethod
     def interviews_today(cls):

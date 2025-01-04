@@ -6,6 +6,7 @@ from .models import User, Candidate, Staff
 class UserAdmin(admin.ModelAdmin):
     readonly_fields = ("created_at", "updated_at")
     list_display = ("username", "created_at", "updated_at", "is_active", "is_staff")
+    list_filter = ["is_staff"]
 
 
 @admin.register(Candidate)

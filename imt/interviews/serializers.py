@@ -1,8 +1,11 @@
-from .models import InterviewFeedback, InterviewRound
 from rest_framework import serializers
+from .models import InterviewFeedback, InterviewRound
+from jobs.serializers import MinimalJobApplicationSerializer
 
 
 class InterviewRoundSerializer(serializers.ModelSerializer):
+    application = MinimalJobApplicationSerializer()
+
     class Meta:
         model = InterviewRound
         fields = [
