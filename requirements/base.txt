@@ -7,3 +7,4 @@ drf-spectacular==0.28.0
 django-cors-headers==4.6.0
 djangorestframework-simplejwt==5.3.1
 pdfplumber==0.11.4
+django-filter==24.3
