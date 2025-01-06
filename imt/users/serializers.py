@@ -1,10 +1,10 @@
+import logging
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
-from .models import Candidate, Staff
+from phonenumber_field.serializerfields import PhoneNumberField
+from .models import Candidate, Staff, User
 from skills.models import Skill
 from skills.serializers import SkillSerializer
-from phonenumber_field.serializerfields import PhoneNumberField
-import logging
 
 logger = logging.getLogger("users")
 
@@ -49,7 +49,31 @@ class CandidateSerializer(serializers.ModelSerializer):
         ]
 
 
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ["id", "username", "is_staff", "is_active"]
+
+
 class StaffSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Staff
+        fields = [
+            "id",
+            "created_at",
+            "updated_at",
+            "user",
+            "first_name",
+            "last_name",
+            "email",
+            "phone",
+            "department",
+        ]
+
+
+class StaffDetailsSerializer(serializers.ModelSerializer):
+    user = UserSerializer(read_only=True)
+
     class Meta:
         model = Staff
         fields = [
