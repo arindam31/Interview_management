@@ -23,8 +23,11 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         all_candidates = Candidate.objects.all()
         all_openings = JobOpening.objects.all()
-        me_user = User.objects.get(username="arindam31")
-        me_staff = Staff.objects.get(user=me_user)
+        me_user, created = User.objects.get_or_create_staff(username="test_staff")
+        if me_user:
+            me_staff, _ = Staff.objects.get_or_create(user=me_user, first_name="Staff_fname")
+        else:
+            print("Failed to create applications as no Staff user found")
 
         for _ in range(options["num"]):
             candidate = random.choice(all_candidates)
