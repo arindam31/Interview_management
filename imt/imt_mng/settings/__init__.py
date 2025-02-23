@@ -1,8 +1,8 @@
+import os
 from django.core.exceptions import ImproperlyConfigured
-from .base import env
 
 # Get the environment name (e.g., 'local', 'prod', 'test')
-ENVIRONMENT = env("DJANGO_ENV", default="local")
+ENVIRONMENT = os.getenv("DJANGO_ENV", default="local")
 
 if not ENVIRONMENT:
     raise ImproperlyConfigured("DJANGO_ENV environment variable is not set!")

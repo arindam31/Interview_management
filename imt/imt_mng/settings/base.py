@@ -1,30 +1,21 @@
-import environ
+import os
+from dotenv import load_dotenv
 from pathlib import Path
 from datetime import timedelta
 from os import environ as os_environ
 
-# Setup env
-env = environ.Env(
-    # set casting, default value
-    DEBUG=(bool, False),
-)
+load_dotenv()
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# reading .env file
-env_file = BASE_DIR.parent / ".env"
-environ.Env.read_env(str(env_file))
-
 # False if not in os.environ
-DEBUG = env("DEBUG")
-SECRET_KEY = env("SECRET_KEY")
+DEBUG = os.getenv("DEBUG")
+SECRET_KEY = os.getenv("SECRET_KEY")
 
-SECRET_KEY = os_environ.get(
-    "SECRET_KEY", env("SECRET_KEY", default="default-secret-key")
-)
-DEBUG = os_environ.get("DEBUG", env.bool("DEBUG", default=False))
-ENVIRONMENT = env("DJANGO_ENV", default="local")
+DEBUG = os.getenv("DEBUG", default=False)
+ENVIRONMENT = os.getenv("DJANGO_ENV", default="local")
 
 ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
 
