@@ -1,18 +1,21 @@
+import os
 from django.core.exceptions import ImproperlyConfigured
-from .base import env
 
-# Get the environment name (e.g., 'local', 'prod', 'test')
-ENVIRONMENT = env("DJANGO_ENV", default="local")
+
+# Get the environment name (e.g., 'local', 'default', 'test')
+ENVIRONMENT = os.getenv("DJANGO_ENV", default="local")
 
 if not ENVIRONMENT:
     raise ImproperlyConfigured("DJANGO_ENV environment variable is not set!")
 
-# Load the appropriate settings file
 if ENVIRONMENT == "local":
     from .local import *
-elif ENVIRONMENT == "production":
+elif ENVIRONMENT == "default":
     from .production import *
 elif ENVIRONMENT == "testing":
     from .testing import *
 else:
     raise ImproperlyConfigured(f"Unknown DJANGO_ENV: {ENVIRONMENT}")
+
+# Load the appropriate settings file
+from .log_settings import *

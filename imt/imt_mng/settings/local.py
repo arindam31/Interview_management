@@ -2,9 +2,9 @@
 
 from .base import *
 
-INSTALLED_APPS += ["django_extensions"]
+# INSTALLED_APPS += ["django_extensions"]
 
-MIDDLEWARE.insert(0, "debug_toolbar.middleware.DebugToolbarMiddleware")
+# MIDDLEWARE.insert(0, "debug_toolbar.middleware.DebugToolbarMiddleware")
 
 
 # ==============================================================================

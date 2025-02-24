@@ -16,7 +16,7 @@
 ## ENV creation for different environments:
 On a CI/CD pipeline:
 
-`pip install -r requirements/testing.txt;pytest`
+`pip install -r requirements/testing.txt`
 
 For local development:
 
@@ -26,8 +26,16 @@ For production:
 
 `pip install -r requirements/base.txt`
 
-## Checking code
+# ENV file contents (create inside dir "imt")
+Mandatory fields and their examples
+```markdown
+  SECRET_KEY=some_real_secret
+  DEBUG=False # Caps bool
+  DJANGO_ENV=local/default   # one of these options only
+  ALLOWED_HOSTS="127.0.0.1,localhost"   # comma separated ip addresses
+```
 
+## Checking code
 The project is equipped with flake8. It helps identify errors against PEP8 standard and much more.
 
 Usage:
@@ -44,3 +52,11 @@ Usage:
   - Using coverage: `coverage run -m pytest`
   - Using coverage to see a summary: `coverage report`
   - Using coverage to see HTML report: `coverage html` # check htmlcov folder for results under (imt folder)
+
+## Running project
+There are few ways and both should always be working.
+- While in dir: imt > 
+  `python manage.py runserver`
+
+- docker run 
+- docker compose up --build # More on docker in documents directory

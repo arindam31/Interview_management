@@ -1,8 +1,6 @@
-from pathlib import Path
+from .base import BASE_DIR
 
-BASE_DIR = Path(__file__).resolve().parent.parent
 logs_dir = BASE_DIR.parent.parent / "logs"
-logs_dir.mkdir(parents=True, exist_ok=True)
 
 LOGGING = {
     "version": 1,
