@@ -10,14 +10,11 @@ load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# False if not in os.environ
-DEBUG = os.getenv("DEBUG")
+# get envs from file .env
 SECRET_KEY = os.getenv("SECRET_KEY")
-
-DEBUG = os.getenv("DEBUG", default=False)
+DEBUG = os.getenv("DEBUG", default=0)
 ENVIRONMENT = os.getenv("DJANGO_ENV", default="local")
-
-ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
+ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "127.0.0.1").split(",")
 
 
 # Application definition
@@ -83,17 +80,13 @@ DATABASES = {
         "NAME": BASE_DIR.parent.parent / "local.sqlite3",
     },
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR.parent.parent / "imt.sqlite3",
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": os.getenv("DATABASE_NAME", default="mydb"),
+        "USER": os.getenv("POSTGRES_USER", default="myuser"),
+        "PASSWORD": os.getenv("POSTGRES_PASSWORD", default="mypassword"),
+        "HOST": os.getenv("POSTGRES_HOST", default="localhost"),
+        "PORT": os.getenv("POSTGRES_PORT", default="5432"),
     },
-    # "production": {
-    #     "ENGINE": "django.db.backends.postgresql",
-    #     "NAME": env("POSTGRES_DB", default="mydb"),
-    #     "USER": env("POSTGRES_USER", default="myuser"),
-    #     "PASSWORD": env("POSTGRES_PASSWORD", default="mypassword"),
-    #     "HOST": env("POSTGRES_HOST", default="localhost"),
-    #     "PORT": env("POSTGRES_PORT", default="5432"),
-    # },
 }
 
 # Dynamically set the default database based on DJANGO_ENV
@@ -130,7 +123,15 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
+
+# This is from where collectstatic command would collect all static files
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+]
 STATIC_URL = "static/"
+
+# This is  where collectstatic command would PLACE all collected static files from STATICFILES_DIRS
+STATIC_ROOT = BASE_DIR / "static"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
