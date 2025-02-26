@@ -60,3 +60,11 @@ There are few ways and both should always be working.
 
 - docker run 
 - docker compose up --build # More on docker in documents directory
+
+## Populating test data. (in this sequence)
+- python .\manage.py create_staffs 5
+- python .\manage.py generate_skills
+- python .\manage.py create_candidates 20
+- python .\manage.py create_positions 3 (Run it more times if you need more than created.)
+- python .\manage.py create_openings 3
+- python .\manage.py create_applications 50 
