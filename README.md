@@ -1,70 +1,137 @@
-# DB design
+# Interview Management Tool (IMT)
 
-## APPS
-- Candidate
-- Staff (username, group, permission)
-- CandidateProcess
- - InterviewRound
-  - Schedule, result, staff, shared_notes
-- postions
-  - position
-  - skill
+# Interview Management Tool (IMT)  
 
-- postings (is a job posting for a position)
-  - Job opening (we can open, close) [posting date, closing date, Position]
+![Build](https://img.shields.io/github/actions/workflow/status/arindam31/Interview_management/django.yml?branch=main)  
+![License](https://img.shields.io/github/license/arindam31/Interview_management
+)  
+![Python](https://img.shields.io/badge/python-3.12%2B-blue)  
 
-## ENV creation for different environments:
-On a CI/CD pipeline:
 
+A streamlined interview management system that helps HR teams manage interview rounds, candidates, and job postings efficiently.
+
+## 🚀 Features
+✅ Candidate and Interview Management  
+✅ Role-Based Staff Permissions  
+✅ Job Posting & Position Tracking  
+✅ Automated Interview Scheduling  
+✅ CI/CD Pipeline for Deployment  
+✅ Fully Dockerized Setup  
+
+
+## 📂 Database Design
+
+```mermaid
+graph TD;
+    Candidate -->|Applies| CandidateProcess;
+    Staff -->|Conducts| InterviewRound;
+    InterviewRound -->|Has| Schedule;
+    InterviewRound -->|Has| Result;
+    InterviewRound -->|Has| SharedNotes;
+    Positions -->|Require| Skill;
+    Postings -->|Advertise| JobOpening;
+    JobOpening -->|Has| PostingDate;
+    JobOpening -->|Has| ClosingDate;
+```
+
+## 🚀 Quick Start  
+
+1️⃣ Clone the repository:  
+```bash
+git clone https://github.com/yourusername/interview-management-tool.git
+cd interview-management-tool
+```
+2️⃣ Set up the environment (choose one):
+
+Local: pip install -r requirements/local.txt  
+Production: pip install -r requirements/base.txt  
+
+3️⃣ Run the project:  
+Django Server: python manage.py runserver
+
+
+## Environment Setup
+🔧 Installation (Local, CI/CD, and Production)
+
+📌 CI/CD Pipeline
 `pip install -r requirements/testing.txt`
 
-For local development:
 
+📌 Local Development
 `pip install -r requirements/local.txt`
 
-For production:
-
+📌 Production
 `pip install -r requirements/base.txt`
 
-# ENV file contents (create inside dir "imt")
+📌 Environment Variables (.env)
+
+**Note:** (create inside dir "imt")
+
 Mandatory fields and their examples
 ```markdown
   SECRET_KEY=some_real_secret
   DEBUG=False # Caps bool
-  DJANGO_ENV=local/default   # one of these options only
-  ALLOWED_HOSTS="127.0.0.1,localhost"   # comma separated ip addresses
+  DJANGO_ENV=local/default    # Available options: local, default
+  ALLOWED_HOSTS="127.0.0.1,localhost"  # comma separated ip addresses
 ```
 
-## Checking code
+🧑‍💻 Code Quality & Linting:
+
 The project is equipped with flake8. It helps identify errors against PEP8 standard and much more.
 
-Usage:
-`flake8`
+Run the linter using:
+> `flake8`
 
-## Running tests.
+## 🧪 Running Tests
 
-- Tests are located under imt/tests.
-- Pytest is used.
-- To run all tests (you need to be in imt folder in terminal.): 
-  - `pytest`
-  - `pytest -s` # To see prints too
-  - `pytest -s -k "Some class or test name keyword"` # To see prints too
-  - Using coverage: `coverage run -m pytest`
-  - Using coverage to see a summary: `coverage report`
-  - Using coverage to see HTML report: `coverage html` # check htmlcov folder for results under (imt folder)
+📌 The tests are located under `imt/tests`.  
+📌 Run tests inside the `imt` directory:  
 
-## Running project
-There are few ways and both should always be working.
-- While in dir: imt > 
-  `python manage.py runserver`
+```bash
+  pytest
+  pytest -s # To see prints too
+  pytest -s -k "keyword" # Run tests matching a keyword
+  coverage run -m pytest # Run with coverage
+  coverage report # View coverage summary 
+  coverage html # Generate an HTML coverage report 
+  ```
+  ➡️ [Stack Overflow](https://stackoverflow.com/questions/36456920/specify-which-pytest-tests-to-run-from-a-file/61869181#61869181): Specify which pytest tests to run
 
-- docker run 
-- docker compose up --build # More on docker in documents directory
+## Running the project
+You can run the project in two ways:
 
-## Populating test data. (in this sequence)
-- python .\manage.py create_staffs 5
-- python .\manage.py generate_skills
-- python .\manage.py create_candidates 20
-- python .\manage.py create_positions 3 (Run it more times if you need more than created.)
-- python .\manage.py create_openings 3
-- python .\manage.py create_applications 50 
+**Option 1: Using Django Development Server**
+```bash
+  cd imt
+  python manage.py runserver
+```
+
+**Option 2: Using Docker**
+```bash
+docker run 
+docker compose up --build # Visit docs folder to know more.
+```
+
+## Populating test data.
+To generate test data, run the following commands in this order:
+
+```bash
+python .\manage.py create_staffs 5
+python .\manage.py generate_skills
+python .\manage.py create_candidates 20
+python .\manage.py create_positions 3 (Run it more times if you need more than created.)
+python .\manage.py create_openings 3
+python .\manage.py create_applications 50 
+```
+
+## 📜 Documentation
+
+📄 The full documentation is available in the docs/ directory.
+
+## 🙌 Contributors
+👤 Your Name – Lead Developer
+💬 Want to contribute? Feel free to open an issue or submit a pull request!
+
+## 📌 License
+
+📜 This project is licensed under the MIT License. See LICENSE for details.
