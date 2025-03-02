@@ -127,7 +127,7 @@ python .\manage.py create_applications 50
 📄 The full documentation is available in the docs/ directory.
 
 ## 🙌 Contributors
-👤 Your Name – Lead Developer
+👤 Arindam Roychowdhury
 💬 Want to contribute? Feel free to open an issue or submit a pull request!
 
 ## 📌 License
