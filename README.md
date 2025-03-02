@@ -1,5 +1,3 @@
-# Interview Management Tool (IMT)
-
 # Interview Management Tool (IMT)  
 
 ![Build](https://img.shields.io/github/actions/workflow/status/arindam31/Interview_management/django.yml?branch=main)  
