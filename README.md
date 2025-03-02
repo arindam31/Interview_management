@@ -1,9 +1,8 @@
 # Interview Management Tool (IMT)  
 
-![Build](https://img.shields.io/github/actions/workflow/status/arindam31/Interview_management/django.yml?branch=main)  
-![License](https://img.shields.io/github/license/arindam31/Interview_management
-)  
-![Python](https://img.shields.io/badge/python-3.12%2B-blue)  
+![Build](https://img.shields.io/github/actions/workflow/status/arindam31/Interview_management/django.yml?branch=main)  ![License](https://img.shields.io/github/license/arindam31/Interview_management
+)  ![Python](https://img.shields.io/badge/python-3.12%2B-blue)  
+
 
 
 A streamlined interview management system that helps HR teams manage interview rounds, candidates, and job postings efficiently.
