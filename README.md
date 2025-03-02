@@ -18,18 +18,7 @@ A streamlined interview management system that helps HR teams manage interview r
 
 ## 📂 Database Design
 
-```mermaid
-graph TD;
-    Candidate -->|Applies| CandidateProcess;
-    Staff -->|Conducts| InterviewRound;
-    InterviewRound -->|Has| Schedule;
-    InterviewRound -->|Has| Result;
-    InterviewRound -->|Has| SharedNotes;
-    Positions -->|Require| Skill;
-    Postings -->|Advertise| JobOpening;
-    JobOpening -->|Has| PostingDate;
-    JobOpening -->|Has| ClosingDate;
-```
+![Database Design](./images/project_diagram_mermaid.svg)
 
 ## 🚀 Quick Start  
 
