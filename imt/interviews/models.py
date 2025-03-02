@@ -24,13 +24,13 @@ class InterviewRound(models.Model):
     application = models.ForeignKey(
         JobApplication, on_delete=models.CASCADE, related_name="interview_rounds"
     )
-    round_type_choices = (
+    ROUND_TYPE_CHOICES = (
         ("T", "Telephonic"),
         ("V", "Video"),
         ("W", "Written"),
         ("F", "Face-to-Face"),
     )
-    round_type = models.CharField(max_length=1, choices=round_type_choices, default="T")
+    round_type = models.CharField(max_length=1, choices=ROUND_TYPE_CHOICES, default="T")
     interviewers = models.ManyToManyField(
         "users.Staff", related_name="interview_rounds", blank=True
     )

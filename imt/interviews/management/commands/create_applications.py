@@ -1,5 +1,5 @@
 import random
-import datetime
+from datetime import datetime, time, date, timedelta
 from faker import Faker
 
 from django.core.exceptions import ValidationError
@@ -23,9 +23,11 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         all_candidates = Candidate.objects.all()
         all_openings = JobOpening.objects.all()
-        me_user, created = User.objects.get_or_create_staff(username="test_staff")
+        me_user, created = User.objects.get_or_create_staff(username="test_staff", password="TestPass@123")
         if me_user:
-            me_staff, _ = Staff.objects.get_or_create(user=me_user, first_name="Staff_fname")
+            me_staff, _ = Staff.objects.get_or_create(
+                user=me_user, first_name="Staff_fname"
+            )
         else:
             print("Failed to create applications as no Staff user found")
 
@@ -35,18 +37,20 @@ class Command(BaseCommand):
             job_application = JobApplication.objects.create(
                 candidate=candidate, opening=job_opening
             )
+            # days = [datetime.date.today() + datetime.timedelta(days=d) for d in range(1, 14)]
+            days = [
+                datetime.combine(
+                    date.today() + timedelta(days=d),
+                    time(random.choice([*range(9,17)]), 0),
+                )
+                for d in range(1, 14)
+            ]
             try:
                 int_rnd = InterviewRound.objects.create(
                     application=job_application,
-                    scheduled_at=timezone.make_aware(
-                        random.choice(
-                            [
-                                datetime.datetime.today() + datetime.timedelta(days=d)
-                                for d in range(1, 14)
-                            ]
-                        )
-                    ),
+                    scheduled_at=timezone.make_aware(random.choice(days)),
                     result=fake.random_element(elements=("A", "F", "N")),
+                    round_type=random.choice([choice[0] for choice in InterviewRound.ROUND_TYPE_CHOICES])
                 )
             except ValidationError:
                 print("candidate has interview already booked.")

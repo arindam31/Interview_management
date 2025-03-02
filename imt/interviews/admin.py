@@ -9,4 +9,7 @@ class InterviewFeedbackAdmin(admin.ModelAdmin):
 
 @admin.register(InterviewRound)
 class InterviewRoundAdmin(admin.ModelAdmin):
-    pass
+    list_display = ["scheduled_at", "get_round_type", "application"]
+    
+    def get_round_type(self, obj):
+        return obj.get_round_type_display()

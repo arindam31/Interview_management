@@ -69,33 +69,36 @@ class UserManager(BaseUserManager):
         extra_fields.setdefault("is_superuser", False)
         return self.create_user(username, password, **extra_fields)
 
-    def get_or_create_staff(self, **kwargs):
-        """
-        Get or create a staff user.
-        Assumes staff status is required for the user.
-        """
+    def get_or_create_staff(self, username, password=None, **kwargs):
         kwargs.setdefault("is_staff", True)
-        user, created = self.get_or_create(**kwargs)
+        user, created = self.get_or_create(username=username, defaults=kwargs)
+
+        if created and password:
+            user.set_password(password)
+            user.save(using=self._db)
+
         return user, created
 
-    def get_or_create_superuser(self, **kwargs):
-        """
-        Get or create a superuser.
-        Assumes superuser status is required.
-        """
+    def get_or_create_superuser(self, username, password=None, **kwargs):
         kwargs.setdefault("is_superuser", True)
         kwargs.setdefault("is_staff", True)
-        user, created = self.get_or_create(**kwargs)
+        user, created = self.get_or_create(username=username, defaults=kwargs)
+
+        if created and password:
+            user.set_password(password)
+            user.save(using=self._db)
+
         return user, created
 
-    def get_or_create_regular_user(self, **kwargs):
-        """
-        Get or create a user object for anyone who is NOT staff.
-        You dont want him to login on admin.
-        """
+    def get_or_create_regular_user(self, username, password=None, **kwargs):
         kwargs.setdefault("is_superuser", False)
         kwargs.setdefault("is_staff", False)
-        user, created = self.get_or_create(**kwargs)
+        user, created = self.get_or_create(username=username, defaults=kwargs)
+
+        if created and password:
+            user.set_password(password)
+            user.save(using=self._db)
+        
         return user, created
 
 
