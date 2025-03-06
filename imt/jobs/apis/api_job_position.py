@@ -1,7 +1,7 @@
 from rest_framework import viewsets
 from jobs.models import JobPosition
 from jobs.serializers import JobPositionSerializer
-from drf_spectacular.utils import extend_schema, OpenApiParameter
+from drf_spectacular.utils import extend_schema
 
 
 @extend_schema(
