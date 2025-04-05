@@ -7,49 +7,49 @@
 
 A streamlined interview management system that helps HR teams manage interview rounds, candidates, and job postings efficiently.
 
-## 🚀 Features
-✅ Candidate and Interview Management  
-✅ Role-Based Staff Permissions  
-✅ Job Posting & Position Tracking  
-✅ Automated Interview Scheduling  
-✅ CI/CD Pipeline for Deployment  
-✅ Fully Dockerized Setup  
+## Features
+Candidate and Interview Management  
+Role-Based Staff Permissions  
+Job Posting & Position Tracking  
+Automated Interview Scheduling  
+CI/CD Pipeline for Deployment  
+Fully Dockerized Setup  
 
 
-## 📂 Database Design
+## Database Design
 
 ![Database Design](./images/project_diagram_mermaid.svg)
 
-## 🚀 Quick Start  
+## Quick Start  
 
-1️⃣ Clone the repository:  
+Clone the repository:  
 ```bash
 git clone https://github.com/yourusername/interview-management-tool.git
 cd interview-management-tool
 ```
-2️⃣ Set up the environment (choose one):
+Set up the environment (choose one):
 
 Local: pip install -r requirements/local.txt  
 Production: pip install -r requirements/base.txt  
 
-3️⃣ Run the project:  
+Run the project:  
 Django Server: python manage.py runserver
 
 
 ## Environment Setup
 🔧 Installation (Local, CI/CD, and Production)
 
-📌 CI/CD Pipeline
+CI/CD Pipeline
 `pip install -r requirements/testing.txt`
 
 
-📌 Local Development
+Local Development
 `pip install -r requirements/local.txt`
 
-📌 Production
+Production
 `pip install -r requirements/base.txt`
 
-📌 Environment Variables (.env)
+Environment Variables (.env)
 
 **Note:** (create inside dir "imt")
 
@@ -61,17 +61,17 @@ Mandatory fields and their examples
   ALLOWED_HOSTS="127.0.0.1,localhost"  # comma separated ip addresses
 ```
 
-🧑‍💻 Code Quality & Linting:
+Code Quality & Linting:
 
 The project is equipped with flake8. It helps identify errors against PEP8 standard and much more.
 
 Run the linter using:
 > `flake8`
 
-## 🧪 Running Tests
+## Running Tests
 
-📌 The tests are located under `imt/tests`.  
-📌 Run tests inside the `imt` directory:  
+The tests are located under `imt/tests`.  
+Run tests inside the `imt` directory:  
 
 ```bash
   pytest
@@ -81,7 +81,7 @@ Run the linter using:
   coverage report # View coverage summary 
   coverage html # Generate an HTML coverage report 
   ```
-  ➡️ [Stack Overflow](https://stackoverflow.com/questions/36456920/specify-which-pytest-tests-to-run-from-a-file/61869181#61869181): Specify which pytest tests to run
+  [Stack Overflow](https://stackoverflow.com/questions/36456920/specify-which-pytest-tests-to-run-from-a-file/61869181#61869181): Specify which pytest tests to run
 
 ## Running the project
 You can run the project in two ways:
@@ -98,6 +98,13 @@ docker run
 docker compose up --build # Visit docs folder to know more.
 ```
 
+## Project URLs:
+Check existing APIs [here](http://127.0.0.1:8000/api/schema/swagger-ui/).
+**Note**: Create a user so as to generate a token to call APIs.
+
+Visit the admin [site](http://127.0.0.1:8000/admin/) to browse data.
+**Note**: Create a superuser or admin staff to login to admin.
+
 ## Populating test data.
 To generate test data, run the following commands in this order:
 
@@ -110,14 +117,14 @@ python .\manage.py create_openings 3
 python .\manage.py create_applications 50 
 ```
 
-## 📜 Documentation
+## Documentation
 
 📄 The full documentation is available in the docs/ directory.
 
-## 🙌 Contributors
-👤 Arindam Roychowdhury
-💬 Want to contribute? Feel free to open an issue or submit a pull request!
+## Contributors
+Arindam Roychowdhury
+Want to contribute? Feel free to open an issue or submit a pull request!
 
-## 📌 License
+## License
 
-📜 This project is licensed under the MIT License. See LICENSE for details.
+This project is licensed under the MIT License. See LICENSE for details.
