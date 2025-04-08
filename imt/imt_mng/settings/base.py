@@ -206,7 +206,12 @@ handlers =  {
         "console": {
             "class": "logging.StreamHandler",
         },     
-    }
+    },
+    "testing": {
+        "console": {
+            "class": "logging.StreamHandler",
+        },     
+    },
 }
 
 LOGGING = {
