@@ -7,7 +7,7 @@ import django_filters
 
 
 class JobOpeningFilter(django_filters.FilterSet):
-    """This sets up rules for filterinf Job Openings."""
+    """This sets up rules for filtering Job Openings."""
     status = django_filters.ChoiceFilter(
         choices=JobOpening.status_choices,
         field_name="status",
@@ -25,10 +25,10 @@ class JobOpeningFilter(django_filters.FilterSet):
 
     @property
     def qs(self):
-        """Apply default filters unless explicitly overridden"""
+        """Apply filters and return final queryset"""
         queryset = super().qs
 
-        # Allow users to request all statuses by passing "all"
+        # Filtering Status: Allow users to request all statuses by passing "all"
         status_value = self.data.get("status")
         if not status_value:
             queryset = queryset.filter(status="O")  # Default: Open jobs
@@ -37,7 +37,7 @@ class JobOpeningFilter(django_filters.FilterSet):
         else:
             queryset = queryset.filter(status=status_value)
 
-        # Allow users to request all job types by passing "all"
+        # Filter Job types: Allow users to request all job types by passing "all"
         job_type_value = self.data.get("job_type")
         if not job_type_value:
             queryset = queryset.filter(job_type="P")  # Default: Permanent jobs
@@ -58,8 +58,8 @@ class JobOpeningViewSet(viewsets.ModelViewSet):
 
     queryset = JobOpening.objects.select_related("position")
     serializer_class = JobOpeningSerializer
-    filter_backends = [DjangoFilterBackend, filters.OrderingFilter] # Enables filtering
-    filterset_class = JobOpeningFilter # Defines how filtering works
+    filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
+    filterset_class = JobOpeningFilter
 
     def get_queryset(self):
         queryset = super().get_queryset()

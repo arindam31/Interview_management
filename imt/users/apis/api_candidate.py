@@ -2,6 +2,7 @@ from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import extend_schema, OpenApiParameter
 
 from rest_framework import viewsets
+from rest_framework.decorators import action
 from rest_framework.filters import SearchFilter
 from rest_framework.pagination import PageNumberPagination
 
@@ -54,3 +55,15 @@ class CandidateViewset(viewsets.ModelViewSet):
     )
     def list(self, request, *args, **kwargs):
         return super().list(request, *args, **kwargs)
+    
+    @action(detail=False)
+    def recent_candidates(self, request):
+        recent_candidate = Candidate.objects.all().order_by('-created_at')
+
+        page = self.paginate_queryset(recent_candidate)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(recent_candidate, many=True)
+        return Response(serializer.data)
