@@ -190,16 +190,8 @@ SIMPLE_JWT = {
 }
 
 # Logger settings
-LOGGING = {
-    "version": 1,
-    "disable_existing_loggers": False,
-    "formatters": {
-        "my_formatter": {
-            "format": "%(asctime)s, File: %(module)s.py, Message: %(message)s",
-            "datefmt": "%Y-%m-%d %H:%M:%S",
-        }
-    },
-    "handlers": {
+handlers =  {
+    "local": {
         "console": {
             "class": "logging.StreamHandler",
         },
@@ -209,7 +201,24 @@ LOGGING = {
             "filename": BASE_DIR.parent.parent / "logs" /"debug.log",
             "formatter": "my_formatter",
         },
+    }, 
+    "default": {
+        "console": {
+            "class": "logging.StreamHandler",
+        },     
+    }
+}
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "my_formatter": {
+            "format": "%(asctime)s, File: %(module)s.py, Message: %(message)s",
+            "datefmt": "%Y-%m-%d %H:%M:%S",
+        }
     },
+    "handlers": handlers[ENVIRONMENT],
     "loggers": {
         "django": {
             "handlers": ["console"],
@@ -217,12 +226,12 @@ LOGGING = {
             "propagate": False,
         },
         "imt": {
-            "handlers": ["file"],
+            "handlers": ["file"] if ENVIRONMENT == "local" else ["console"],
             "level": "INFO",
             "propagate": False,
         },
         "users": {
-            "handlers": ["file"],
+            "handlers": ["file"] if ENVIRONMENT == "local" else ["console"],
             "level": "INFO",
             "propagate": False,
         },
