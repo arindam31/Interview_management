@@ -16,6 +16,3 @@ elif ENVIRONMENT == "testing":
     from .testing import *
 else:
     raise ImproperlyConfigured(f"Unknown DJANGO_ENV: {ENVIRONMENT}")
-
-# Load the appropriate settings file
-from .log_settings import *

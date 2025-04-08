@@ -2,7 +2,6 @@ import os
 from dotenv import load_dotenv
 from pathlib import Path
 from datetime import timedelta
-from os import environ as os_environ
 
 load_dotenv()
 
@@ -188,4 +187,58 @@ SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(minutes=60),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
     "ROTATE_REFRESH_TOKENS": True,
+}
+
+# Logger settings
+handlers =  {
+    "local": {
+        "console": {
+            "class": "logging.StreamHandler",
+        },
+        "file": {
+            "level": "INFO",
+            "class": "logging.FileHandler",
+            "filename": BASE_DIR.parent.parent / "logs" /"debug.log",
+            "formatter": "my_formatter",
+        },
+    }, 
+    "default": {
+        "console": {
+            "class": "logging.StreamHandler",
+        },     
+    },
+    "testing": {
+        "console": {
+            "class": "logging.StreamHandler",
+        },     
+    },
+}
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "my_formatter": {
+            "format": "%(asctime)s, File: %(module)s.py, Message: %(message)s",
+            "datefmt": "%Y-%m-%d %H:%M:%S",
+        }
+    },
+    "handlers": handlers[ENVIRONMENT],
+    "loggers": {
+        "django": {
+            "handlers": ["console"],
+            "level": "INFO",
+            "propagate": False,
+        },
+        "imt": {
+            "handlers": ["file"] if ENVIRONMENT == "local" else ["console"],
+            "level": "INFO",
+            "propagate": False,
+        },
+        "users": {
+            "handlers": ["file"] if ENVIRONMENT == "local" else ["console"],
+            "level": "INFO",
+            "propagate": False,
+        },
+    },
 }

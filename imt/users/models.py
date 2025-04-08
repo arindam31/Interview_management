@@ -14,6 +14,7 @@ from django.contrib.auth.password_validation import validate_password
 from django.db import models
 
 
+
 class TimestampedModel(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -22,7 +23,7 @@ class TimestampedModel(models.Model):
     class Meta:
         abstract = True
 
-
+    
 # Custom User Manager
 class UserManager(BaseUserManager):
     def create(self, *args, **kwargs):
