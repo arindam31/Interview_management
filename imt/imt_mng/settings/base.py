@@ -11,7 +11,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # get envs from file .env
 SECRET_KEY = os.getenv("SECRET_KEY")
-DEBUG = os.getenv("DEBUG", default=0)
+DEBUG = os.getenv("DEBUG", default=True)             
+DEBUG = True           
 ENVIRONMENT = os.getenv("DJANGO_ENV", default="local")
 ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "127.0.0.1").split(",")
 
@@ -32,6 +33,7 @@ THIRD_PARTY_APPS = [
     "drf_spectacular",
     "corsheaders",
     "django_filters",
+    "django_celery_beat",
 ]
 
 CUSTOM_APPS = ["users", "skills", "jobs", "ratings", "interviews"]
@@ -142,7 +144,8 @@ PHONENUMBER_DEFAULT_REGION = "AT"  # Default region for numbers without a countr
 PHONENUMBER_DB_FORMAT = "E164"  # Store phone numbers in E.164 format
 PHONENUMBER_DEFAULT_FORMAT = "INTERNATIONAL"  # Format for display
 # ********************************************
-
+# Celery settings
+CELERY_BROKER_URL = 'redis://redis:6379/0'
 
 # ****** Django authentication settings ******
 ## Redirect after successful login
