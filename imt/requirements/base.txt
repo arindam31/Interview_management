@@ -9,3 +9,6 @@ pdfplumber==0.11.4
 django-filter==24.3
 faker==33.1.0
 python-dotenv==1.0.1
+celery==5.5.0
+django-celery-beat==2.8.0
+redis==5.2.1

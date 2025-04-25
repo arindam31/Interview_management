@@ -45,8 +45,12 @@ ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1 
  
 # Set the entrypoint
-COPY entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
+COPY /entry_points/entrypoint.sh /entry_points/entrypoint.sh
+COPY /entry_points/celery_entrypoint.sh /entry_points/celery_entrypoint.sh
+COPY /entry_points/celery_beat_entrypoint.sh /entry_points/celery_beat_entrypoint.sh
+RUN chmod +x /entry_points/entrypoint.sh
+RUN chmod +x /entry_points/celery_entrypoint.sh
+RUN chmod +x /entry_points/celery_beat_entrypoint.sh
 
 # Switch to non-root user
 USER appuser
@@ -54,4 +58,4 @@ USER appuser
 # Expose the application port
 EXPOSE 8000
 
-ENTRYPOINT ["/entrypoint.sh"]
+# ENTRYPOINT ["/entrypoint.sh"]

@@ -13,15 +13,27 @@ services:
      - logs:/code/logs
    env_file:
      - .env
- 
+   healthcheck:
+     test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${DATABASE_NAME}"]
+     interval: 5s
+     timeout: 5s
+     retries: 5 
+
+ redis:
+    image: redis:7
+    container_name: project_imt_redis
+    
  django-web:
    build: .
    container_name: project_imt_container
-   working_dir: /code # This lets you bash into the project directory.
+   working_dir: /code # This lets you bash into the project directory straight away.
    ports:
      - "8000:8000"
    depends_on:
-     - db
+     db:
+       condition: service_healthy
+     redis:
+       condition: service_started 
    environment:
      SECRET_KEY: ${SECRET_KEY}
      DEBUG: ${DEBUG}
@@ -34,6 +46,38 @@ services:
      DJANGO_ENV: ${DJANGO_ENV}
    env_file:
      - .env
+   entrypoint: /code/entry_points/entrypoint.sh
+
+ celery:
+   build: .
+   container_name: project_imt_celery_worker
+   working_dir: /code
+   entrypoint: /code/entry_points/celery_entrypoint.sh
+   depends_on:
+     db:
+       condition: service_healthy
+     redis:
+       condition: service_started
+   environment:
+     CELERY_BROKER_URL: redis://redis:6379/0
+   env_file:
+     - .env
+
+ beat:
+    build: .
+    container_name: project_imt_celery_beat
+    working_dir: /code
+    entrypoint: /code/entry_points/celery_beat_entrypoint.sh
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    environment:
+      CELERY_BROKER_URL: redis://redis:6379/0
+    env_file:
+      - .env
+
 volumes:
    postgres_data:
    logs:
